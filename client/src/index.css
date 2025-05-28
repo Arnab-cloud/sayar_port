@@ -1,0 +1,288 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --primary: 238 87% 60%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 142 76% 36%;
+  --secondary-foreground: 144 64% 13%;
+  --accent: 60 4.8% 95.9%;
+  --accent-foreground: 24 9.8% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 20 14.3% 4.1%;
+  --radius: 0.5rem;
+  --chart-1: 238 87% 60%;
+  --chart-2: 142 76% 36%;
+  --chart-3: 270 67% 60%;
+  --chart-4: 200 80% 50%;
+  --chart-5: 30 80% 50%;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 238 87% 60%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 142 76% 36%;
+  --secondary-foreground: 158 80% 86%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 240 4.9% 83.9%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Custom utility classes */
+  .bg-gradient-animated {
+    @apply bg-gradient-to-br from-black via-black to-black bg-[length:400%_400%] animate-gradient;
+  }
+
+  .clip-path-slant {
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  }
+
+  .ai-pattern {
+    background-image: 
+      /* Neural network nodes - Light mode uses blue tones */
+      radial-gradient(circle at 1px 1px, rgba(37, 99, 235, 0.1) 2px, transparent 0),
+      /* Neural network connections */
+      linear-gradient(45deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+      linear-gradient(-45deg, rgba(147, 51, 234, 0.03) 1px, transparent 1px),
+      /* Data flow lines */
+      linear-gradient(to right, rgba(14, 165, 233, 0.03) 1px, transparent 1px),
+      /* Matrix pattern */
+      repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(79, 70, 229, 0.03) 10px, rgba(79, 70, 229, 0.03) 11px);
+    background-size: 30px 30px, 40px 40px, 40px 40px, 30px 30px, 20px 20px;
+    opacity: 0.5;
+    animation: ai-pattern-pulse 4s infinite alternate;
+  }
+  
+  .dark .ai-pattern {
+    background-image: 
+      /* Neural network nodes - Dark mode uses cyan tones */
+      radial-gradient(circle at 1px 1px, rgba(0, 255, 255, 0.1) 2px, transparent 0),
+      /* Neural network connections */
+      linear-gradient(45deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+      linear-gradient(-45deg, rgba(192, 132, 252, 0.05) 1px, transparent 1px),
+      /* Data flow lines */
+      linear-gradient(to right, rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+      /* Matrix pattern */
+      repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(79, 70, 229, 0.05) 10px, rgba(79, 70, 229, 0.05) 11px);
+    background-size: 30px 30px, 40px 40px, 40px 40px, 30px 30px, 20px 20px;
+    opacity: 0.3;
+    animation: ai-pattern-pulse 4s infinite alternate;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .animate-gradient {
+    animation: gradient 15s ease infinite;
+  }
+  
+  .animate-float-slow {
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .animate-float-medium {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-fast {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  .animate-typing {
+    animation: typing 4s steps(40) infinite;
+    position: relative;
+  }
+  
+  .animate-diffusion {
+    animation: diffusion 3s ease-in-out infinite;
+    position: relative;
+  }
+  
+  .animate-token-1 {
+    animation: token-pulse 2s ease-in-out infinite;
+    position: relative;
+  }
+  
+  .animate-token-2 {
+    animation: token-pulse 2s ease-in-out 0.3s infinite;
+    position: relative;
+  }
+  
+  .animate-token-3 {
+    animation: token-pulse 2s ease-in-out 0.6s infinite;
+    position: relative;
+  }
+  
+  .animate-spin-slow {
+    animation: spin 8s linear infinite;
+    position: relative;
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .neural-pulse {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .neural-pulse::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+    animation: neural-pulse 8s infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin 15s linear infinite;
+  }
+
+  .animate-spin-slow-reverse {
+    animation: spin-reverse 12s linear infinite;
+  }
+
+  .code-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, transparent, rgba(32, 196, 112, 0.2));
+    background-size: 100% 200%;
+    animation: code-rain 10s linear infinite;
+  }
+
+  .code-rain::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(32, 196, 112, 0.1) 20px, rgba(32, 196, 112, 0.1) 40px);
+    background-size: 100% 100%;
+    animation: code-flicker 0.5s linear infinite;
+  }
+
+  .bg-circuit-pattern {
+    background-image: 
+      radial-gradient(circle at 10px 10px, rgba(79, 70, 229, 0.1) 2px, transparent 0),
+      linear-gradient(to right, rgba(79, 70, 229, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(79, 70, 229, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px, 15px 15px, 15px 15px;
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes spin-reverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+
+  @keyframes code-rain {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+  }
+
+  @keyframes code-flicker {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+  
+  @keyframes neural-pulse {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+  
+  @keyframes ai-pattern-pulse {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.5; }
+  }
+  
+  .dark .ai-pattern {
+    animation: ai-pattern-pulse-dark 4s infinite alternate;
+  }
+  
+  @keyframes ai-pattern-pulse-dark {
+    0% { opacity: 0.2; }
+    100% { opacity: 0.4; }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-10px) translateX(10px); }
+    50% { transform: translateY(0) translateX(15px); }
+    75% { transform: translateY(10px) translateX(5px); }
+  }
+  
+  @keyframes typing {
+    0% { transform: translateX(0); }
+    40% { transform: translateX(-100%); }
+    40.1% { transform: translateX(100%); }
+    80% { transform: translateX(0); }
+    100% { transform: translateX(0); }
+  }
+  
+  @keyframes diffusion {
+    0% { filter: blur(10px); opacity: 0.3; }
+    50% { filter: blur(2px); opacity: 0.7; }
+    100% { filter: blur(10px); opacity: 0.3; }
+  }
+  
+  @keyframes token-pulse {
+    0%, 100% { opacity: 0.5; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-2px); }
+  }
+}
