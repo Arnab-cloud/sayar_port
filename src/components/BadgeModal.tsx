@@ -63,8 +63,7 @@ export default function BadgeModal({ isOpen, onClose }: BadgeModalProps) {
 				body: JSON.stringify({
 					name: currentUser?.displayName || "Guest",
 					email: currentUser?.email || "",
-					photoURL:
-						"https://blogger.googleusercontent.com/img/a/AVvXsEgLhFyRrLh3rCyveZufQg1-eC4bjWwK8cCxDjlCVgY7gEXlx---WSZQwwFhw1ZO5dHwrLaHb_JZbhoUPNZfXOvT2SvDIpQtObNh7QAEjcE-DCatl9GqdkCC16I1DiiabWJcoOBxjBtZ_XDGFVYL_QBi1ilHAnVwUrfZ-_WePb983J08GgpDIur51n-52wg=w306-h345",
+					photoURL: currentUser?.photoURL || "",
 				}),
 			});
 
