@@ -2,6 +2,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
+const SERVER_BASE_URL = import.meta.env.VITE_SERVER_API_BASE_URL;
+
 interface BadgeModalProps {
 	isOpen: boolean;
 	onClose: () => void;
@@ -53,7 +55,7 @@ export default function BadgeModal({ isOpen, onClose }: BadgeModalProps) {
 			setIsDownloading(true);
 
 			// Get the badge image from the server
-			const response = await fetch("/api/generate-badge", {
+			const response = await fetch(`${SERVER_BASE_URL}/generate-badge`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -101,7 +103,7 @@ export default function BadgeModal({ isOpen, onClose }: BadgeModalProps) {
 			setIsSharing(true);
 
 			// First, get the badge image URL
-			const response = await fetch("/api/generate-badge", {
+			const response = await fetch(`${SERVER_BASE_URL}/generate-badge`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -215,7 +217,7 @@ export default function BadgeModal({ isOpen, onClose }: BadgeModalProps) {
 							{/* Display the actual badge from the server */}
 							<div className="rounded-lg overflow-hidden shadow-lg">
 								<img
-									src={`/api/generate-badge?name=${encodeURIComponent(
+									src={`${SERVER_BASE_URL}/generate-badge?name=${encodeURIComponent(
 										currentUser?.displayName || "Guest"
 									)}&email=${encodeURIComponent(
 										currentUser?.email || ""

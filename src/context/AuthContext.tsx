@@ -10,6 +10,8 @@ import { auth, googleProvider } from "../lib/firebase";
 import { apiRequest } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
+const SERVER_BASE_URL = import.meta.env.VITE_SERVER_API_BASE_URL;
+
 interface AuthContextProps {
 	currentUser: User | null;
 	isLoading: boolean;
@@ -68,7 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				console.log("User signed in:", user.email);
 
 				try {
-					await apiRequest("POST", "/api/send-badge", {
+					await apiRequest("POST", `${SERVER_BASE_URL}/send-badge`, {
 						email: user.email,
 						name: user.displayName,
 						photoURL: user.photoURL,
@@ -136,7 +138,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			if (result) {
 				// User just signed in - send email with badge
 				const { user } = result;
-				await apiRequest("POST", "/api/send-badge", {
+				await apiRequest("POST", `${SERVER_BASE_URL}send-badge`, {
 					email: user.email,
 					name: user.displayName,
 					photoURL: user.photoURL,
