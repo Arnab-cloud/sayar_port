@@ -6,8 +6,8 @@
 		"tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
 		"noEmit": true,
 
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
 
 		"strict": true,
 		"lib": ["esnext", "dom", "dom.iterable"],
