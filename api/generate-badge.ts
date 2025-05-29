@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { z } from "zod";
-import { generateBadge } from "../shared/badgeGenerator";
+import { generateBadge } from "../shared/badgeGenerator.ts";
 
 interface BadgeOptions {
 	name: string;
