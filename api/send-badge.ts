@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { z } from "zod";
-import { sendBadgeEmail } from "../server/services/emailService";
-import { generateBadge } from "../server/services/badgeGenerator";
+import { sendBadgeEmail } from "@shared/emailService.ts";
+import { generateBadge } from "@shared/badgeGenerator.ts";
 
 const sendBadgeSchema = z.object({
 	email: z.string().email(),
