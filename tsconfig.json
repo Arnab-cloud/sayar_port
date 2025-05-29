@@ -1,26 +1,54 @@
 {
-	"include": ["client/src/**/*", "shared/**/*", "server/**/*", "api/**/*"],
-	"exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+	"include": ["src/**/*", "shared/**/*", "vite.config.ts"],
+	"exclude": [
+		"node_modules",
+		"build",
+		"dist",
+		"**/*.test.ts",
+		"**/*.test.tsx",
+		"**/*.spec.ts",
+		"**/*.spec.tsx"
+	],
 	"compilerOptions": {
+		// Build Options
 		"incremental": true,
 		"tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
 		"noEmit": true,
+
+		// Module resolution
 		"module": "ESNext",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"target": "ES2020",
+		"useDefineForClassFields": true,
+
+		// Type checking
 		"strict": true,
-		"resolveJsonModule": true,
-		"lib": ["esnext", "dom", "dom.iterable"],
-		"jsx": "preserve",
-		"esModuleInterop": true,
-		"skipLibCheck": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+
+		// Interop and compatibility
 		"allowImportingTsExtensions": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+
+		// JSX and libraries
+		"jsx": "react-jsx",
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+
+		// path mapping
 		"baseUrl": ".",
-		"types": ["node", "vite/client"],
 		"paths": {
-			"@/*": ["./client/src/*"],
+			"@/*": ["./src/*"],
 			"@shared/*": ["./shared/*"],
 			"@assets/*": ["./attached_assets/*"]
-		}
+		},
+
+		// Type- definition
+		"types": ["vite/client"]
 	}
 }
