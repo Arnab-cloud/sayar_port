@@ -33,7 +33,11 @@ export default function Contact({ onOpenAuthModal }: ContactProps) {
 		try {
 			setIsSubmitting(true);
 
-			await apiRequest("POST", `${SERVER_BASE_URL}/contact`, formData);
+			await apiRequest(
+				"POST",
+				`${SERVER_BASE_URL}/api/contact`,
+				formData
+			);
 
 			toast({
 				title: "Message Sent!",

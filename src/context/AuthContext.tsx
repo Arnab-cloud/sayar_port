@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 			// Using popup method instead of redirect
 			const result = await signInWithPopup(auth, googleProvider);
-			console.log("Popup sign-in successful", result);
+			// console.log("Popup sign-in successful", result);
 
 			// If sign-in successful, send badge email
 			if (result.user) {
@@ -70,11 +70,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				console.log("User signed in:", user.email);
 
 				try {
-					await apiRequest("POST", `${SERVER_BASE_URL}/send-badge`, {
-						email: user.email,
-						name: user.displayName,
-						photoURL: user.photoURL,
-					});
+					await apiRequest(
+						"POST",
+						`${SERVER_BASE_URL}/api/send-badge`,
+						{
+							email: user.email,
+							name: user.displayName,
+							photoURL: user.photoURL,
+						}
+					);
 
 					toast({
 						title: "Welcome!",
@@ -138,7 +142,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			if (result) {
 				// User just signed in - send email with badge
 				const { user } = result;
-				await apiRequest("POST", `${SERVER_BASE_URL}send-badge`, {
+				await apiRequest("POST", `${SERVER_BASE_URL}/apisend-badge`, {
 					email: user.email,
 					name: user.displayName,
 					photoURL: user.photoURL,

@@ -67,7 +67,7 @@ export default function BadgeModal({ onClose }: BadgeModalProps) {
 				setIsLoading(true);
 
 				const response = await fetch(
-					`${SERVER_BASE_URL}/generate-badge`,
+					`${SERVER_BASE_URL}/api/generate-badge`,
 					{
 						method: "POST",
 						headers: {
@@ -92,7 +92,7 @@ export default function BadgeModal({ onClose }: BadgeModalProps) {
 					const base64data = reader.result as string;
 
 					sessionStorage.setItem("badgeUrl", base64data);
-					console.log(base64data);
+
 					setBadgeUrl(base64data);
 				};
 
@@ -112,7 +112,7 @@ export default function BadgeModal({ onClose }: BadgeModalProps) {
 			setIsDownloading(true);
 
 			// // Get the badge image from the server
-			// const response = await fetch(`${SERVER_BASE_URL}/generate-badge`, {
+			// const response = await fetch(`${SERVER_BASE_URL}/api/generate-badge`, {
 			// 	method: "POST",
 			// 	headers: {
 			// 		"Content-Type": "application/json",
@@ -159,18 +159,21 @@ export default function BadgeModal({ onClose }: BadgeModalProps) {
 			setIsSharing(true);
 
 			// First, get the badge image URL
-			const response = await fetch(`${SERVER_BASE_URL}/generate-badge`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					name: currentUser?.displayName || "Guest",
-					email: currentUser?.email || "",
-					photoURL:
-						"https://blogger.googleusercontent.com/img/a/AVvXsEgLhFyRrLh3rCyveZufQg1-eC4bjWwK8cCxDjlCVgY7gEXlx---WSZQwwFhw1ZO5dHwrLaHb_JZbhoUPNZfXOvT2SvDIpQtObNh7QAEjcE-DCatl9GqdkCC16I1DiiabWJcoOBxjBtZ_XDGFVYL_QBi1ilHAnVwUrfZ-_WePb983J08GgpDIur51n-52wg=w306-h345",
-				}),
-			});
+			const response = await fetch(
+				`${SERVER_BASE_URL}/api/generate-badge`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						name: currentUser?.displayName || "Guest",
+						email: currentUser?.email || "",
+						photoURL:
+							"https://blogger.googleusercontent.com/img/a/AVvXsEgLhFyRrLh3rCyveZufQg1-eC4bjWwK8cCxDjlCVgY7gEXlx---WSZQwwFhw1ZO5dHwrLaHb_JZbhoUPNZfXOvT2SvDIpQtObNh7QAEjcE-DCatl9GqdkCC16I1DiiabWJcoOBxjBtZ_XDGFVYL_QBi1ilHAnVwUrfZ-_WePb983J08GgpDIur51n-52wg=w306-h345",
+					}),
+				}
+			);
 
 			if (!response.ok) {
 				throw new Error("Failed to generate badge");
@@ -272,7 +275,7 @@ export default function BadgeModal({ onClose }: BadgeModalProps) {
 									<LoaderCircle className="w-8 h-8 animate-spin " />
 								) : (
 									<img
-										// src={`${SERVER_BASE_URL}/generate-badge?name=${encodeURIComponent(
+										// src={`${SERVER_BASE_URL}/api/generate-badge?name=${encodeURIComponent(
 										// 	currentUser?.displayName || "Guest"
 										// )}&email=${encodeURIComponent(
 										// 	currentUser?.email || ""
