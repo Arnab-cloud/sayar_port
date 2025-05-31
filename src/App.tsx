@@ -8,12 +8,23 @@ import Home from "@/pages/Home";
 import AllProjects from "@/pages/AllProjects";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import ScrollToTopOnProjects from "./components/ScrollToTop";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function Router() {
 	return (
 		<Switch>
 			<Route path="/" component={Home} />
-			<Route path="/projects" component={AllProjects} />
+			<Route
+				path="/projects"
+				component={() => {
+					return (
+						<ProtectedRoute>
+							<AllProjects />
+						</ProtectedRoute>
+					);
+				}}
+			/>
 			<Route component={NotFound} />
 		</Switch>
 	);
@@ -31,6 +42,7 @@ function App() {
 		<QueryClientProvider client={queryClient}>
 			<TooltipProvider>
 				<Toaster />
+				<ScrollToTopOnProjects />
 				<Router />
 			</TooltipProvider>
 		</QueryClientProvider>

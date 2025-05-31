@@ -1,15 +1,16 @@
 import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import AuthModal from "@/components/AuthModal";
 import BadgeModal from "@/components/BadgeModal";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 export default function AllProjects() {
 	const [showAuthModal, setShowAuthModal] = useState(false);
 	const [showBadgeModal, setShowBadgeModal] = useState(false);
 	const { currentUser } = useAuth();
+	const [, setLocation] = useLocation();
 
 	const handleOpenAuthModal = () => {
 		setShowAuthModal(true);
@@ -26,6 +27,13 @@ export default function AllProjects() {
 	const handleCloseBadgeModal = () => {
 		setShowBadgeModal(false);
 	};
+
+	useCallback(() => {
+		if (!currentUser) {
+			// const [, setLocation] = useLocation();
+			setLocation("/");
+		}
+	}, [currentUser, setLocation]);
 
 	// Function to render project card
 	const renderProjectCard = (

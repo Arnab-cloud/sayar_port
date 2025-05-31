@@ -125,6 +125,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				title: "Signed Out",
 				description: "You have been successfully signed out.",
 			});
+			setCurrentUser(null);
 		} catch (error) {
 			console.error("Error signing out:", error);
 			toast({
