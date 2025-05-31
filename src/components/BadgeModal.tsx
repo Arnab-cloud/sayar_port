@@ -268,8 +268,8 @@ export default function BadgeModal({ onClose }: BadgeModalProps) {
 						<div className="relative mb-6 w-full max-w-[400px] mx-auto">
 							{/* Display the actual badge from the server */}
 							<div className="rounded-lg overflow-hidden shadow-lg">
-								{isLoading ? (
-									<LoaderCircle />
+								{badgeUrl ? (
+									<LoaderCircle className="w-8 h-8 animate-spin " />
 								) : (
 									<img
 										// src={`${SERVER_BASE_URL}/generate-badge?name=${encodeURIComponent(
@@ -280,6 +280,7 @@ export default function BadgeModal({ onClose }: BadgeModalProps) {
 										// 	currentUser?.photoURL || ""
 										// )}&t=${new Date().getTime()}`}
 										src={badgeUrl}
+										loading="lazy"
 										alt="Your Badge"
 										className="w-full h-auto"
 									/>
