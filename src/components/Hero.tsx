@@ -2,9 +2,10 @@ import { useAuth } from "@/hooks/useAuth";
 
 interface HeroProps {
 	onOpenAuthModal: () => void;
+	onOpenBadgeModal: () => void;
 }
 
-export default function Hero({ onOpenAuthModal }: HeroProps) {
+export default function Hero({ onOpenAuthModal, onOpenBadgeModal }: HeroProps) {
 	const { currentUser } = useAuth();
 
 	return (
@@ -92,7 +93,11 @@ export default function Hero({ onOpenAuthModal }: HeroProps) {
 					</p>
 					<div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
 						<button
-							onClick={onOpenAuthModal}
+							onClick={() => {
+								currentUser
+									? onOpenBadgeModal()
+									: onOpenAuthModal();
+							}}
 							className="px-8 py-3 bg-white dark:bg-gradient-to-r dark:from-cyan-500 dark:to-blue-500 text-primary-600 dark:text-white rounded-lg font-medium hover:bg-gray-100 dark:hover:from-cyan-600 dark:hover:to-blue-600 transition-all shadow-lg"
 						>
 							{currentUser

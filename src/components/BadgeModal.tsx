@@ -1,85 +1,142 @@
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { LoaderCircle } from "lucide-react";
 
 const SERVER_BASE_URL = import.meta.env.VITE_SERVER_API_BASE_URL;
 
 interface BadgeModalProps {
-	isOpen: boolean;
+	// isOpen: boolean;
 	onClose: () => void;
 }
 
-export default function BadgeModal({ isOpen, onClose }: BadgeModalProps) {
+// Share platform configurations
+const sharePlatforms = [
+	{
+		name: "LinkedIn",
+		icon: "ri-linkedin-box-fill",
+		color: "bg-blue-600",
+		hoverColor: "hover:bg-blue-700",
+		textColor: "text-white",
+	},
+	{
+		name: "Twitter",
+		icon: "ri-twitter-fill",
+		color: "bg-blue-400",
+		hoverColor: "hover:bg-blue-500",
+		textColor: "text-white",
+	},
+	{
+		name: "Facebook",
+		icon: "ri-facebook-fill",
+		color: "bg-blue-700",
+		hoverColor: "hover:bg-blue-800",
+		textColor: "text-white",
+	},
+	{
+		name: "WhatsApp",
+		icon: "ri-whatsapp-fill",
+		color: "bg-green-500",
+		hoverColor: "hover:bg-green-600",
+		textColor: "text-white",
+	},
+];
+
+export default function BadgeModal({ onClose }: BadgeModalProps) {
 	const { currentUser } = useAuth();
 	const { toast } = useToast();
+	const [badgeUrl, setBadgeUrl] = useState<string>("");
 	const [isDownloading, setIsDownloading] = useState(false);
 	const [isSharing, setIsSharing] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	// Generate a random badge ID
 	// const badgeId = `AIML${Math.floor(1000 + Math.random() * 9000)}`;
 
-	// Share platform configurations
-	const sharePlatforms = [
-		{
-			name: "LinkedIn",
-			icon: "ri-linkedin-box-fill",
-			color: "bg-blue-600",
-			hoverColor: "hover:bg-blue-700",
-			textColor: "text-white",
-		},
-		{
-			name: "Twitter",
-			icon: "ri-twitter-fill",
-			color: "bg-blue-400",
-			hoverColor: "hover:bg-blue-500",
-			textColor: "text-white",
-		},
-		{
-			name: "Facebook",
-			icon: "ri-facebook-fill",
-			color: "bg-blue-700",
-			hoverColor: "hover:bg-blue-800",
-			textColor: "text-white",
-		},
-		{
-			name: "WhatsApp",
-			icon: "ri-whatsapp-fill",
-			color: "bg-green-500",
-			hoverColor: "hover:bg-green-600",
-			textColor: "text-white",
-		},
-	];
+	useEffect(() => {
+		if (!currentUser) return;
+
+		const cachedBadgeUrl = sessionStorage.getItem("badgeUrl");
+		if (cachedBadgeUrl) {
+			setBadgeUrl(cachedBadgeUrl);
+			return;
+		}
+
+		const generateBadge = async () => {
+			try {
+				setIsLoading(true);
+
+				const response = await fetch(
+					`${SERVER_BASE_URL}/generate-badge`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							name: currentUser.displayName || "Guest",
+							email: currentUser.email || "",
+							photoURL: currentUser.photoURL || "",
+						}),
+					}
+				);
+
+				if (!response.ok) {
+					throw new Error("Failed to generate badge");
+				}
+
+				const badgeBlob = await response.blob();
+
+				const reader = new FileReader();
+				reader.onloadend = () => {
+					const base64data = reader.result as string;
+
+					sessionStorage.setItem("badgeUrl", base64data);
+					console.log(base64data);
+					setBadgeUrl(base64data);
+				};
+
+				reader.readAsDataURL(badgeBlob);
+			} catch (error) {
+				console.error("Error generating badge:", error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
+		generateBadge();
+	}, [currentUser]);
 
 	const handleDownload = async () => {
 		try {
 			setIsDownloading(true);
 
-			// Get the badge image from the server
-			const response = await fetch(`${SERVER_BASE_URL}/generate-badge`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					name: currentUser?.displayName || "Guest",
-					email: currentUser?.email || "",
-					photoURL: currentUser?.photoURL || "",
-				}),
-			});
+			// // Get the badge image from the server
+			// const response = await fetch(`${SERVER_BASE_URL}/generate-badge`, {
+			// 	method: "POST",
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 	},
+			// 	body: JSON.stringify({
+			// 		name: currentUser?.displayName || "Guest",
+			// 		email: currentUser?.email || "",
+			// 		photoURL: currentUser?.photoURL || "",
+			// 	}),
+			// });
 
-			if (!response.ok) {
-				throw new Error("Failed to generate badge");
-			}
+			// if (!response.ok) {
+			// 	throw new Error("Failed to generate badge");
+			// }
 
-			const badgeBlob = await response.blob();
-			const url = window.URL.createObjectURL(badgeBlob);
+			// const badgeBlob = await response.blob();
+			// const url = window.URL.createObjectURL(badgeBlob);
 			const link = document.createElement("a");
-			link.href = url;
+			link.href = badgeUrl;
 			link.download = "sayar-basu-badge.png";
 			document.body.appendChild(link);
 			link.click();
 			document.body.removeChild(link);
-			window.URL.revokeObjectURL(url);
+			// window.URL.revokeObjectURL();
 
 			toast({
 				title: "Badge Downloaded",
@@ -179,14 +236,10 @@ export default function BadgeModal({ isOpen, onClose }: BadgeModalProps) {
 		}
 	};
 
-	if (!isOpen) return null;
+	// if (!isOpen) return null;
 
 	return (
-		<div
-			className={`fixed inset-0 z-50 flex items-center justify-center ${
-				isOpen ? "visible" : "invisible"
-			}`}
-		>
+		<div className={`fixed inset-0 z-50 flex items-center justify-center `}>
 			<div
 				className="fixed inset-0 bg-black/50 backdrop-blur-sm"
 				onClick={onClose}
@@ -215,17 +268,22 @@ export default function BadgeModal({ isOpen, onClose }: BadgeModalProps) {
 						<div className="relative mb-6 w-full max-w-[400px] mx-auto">
 							{/* Display the actual badge from the server */}
 							<div className="rounded-lg overflow-hidden shadow-lg">
-								<img
-									src={`${SERVER_BASE_URL}/generate-badge?name=${encodeURIComponent(
-										currentUser?.displayName || "Guest"
-									)}&email=${encodeURIComponent(
-										currentUser?.email || ""
-									)}&photoURL=${encodeURIComponent(
-										currentUser?.photoURL || ""
-									)}&t=${new Date().getTime()}`}
-									alt="Your Badge"
-									className="w-full h-auto"
-								/>
+								{isLoading ? (
+									<LoaderCircle />
+								) : (
+									<img
+										// src={`${SERVER_BASE_URL}/generate-badge?name=${encodeURIComponent(
+										// 	currentUser?.displayName || "Guest"
+										// )}&email=${encodeURIComponent(
+										// 	currentUser?.email || ""
+										// )}&photoURL=${encodeURIComponent(
+										// 	currentUser?.photoURL || ""
+										// )}&t=${new Date().getTime()}`}
+										src={badgeUrl}
+										alt="Your Badge"
+										className="w-full h-auto"
+									/>
+								)}
 							</div>
 						</div>
 					</div>
