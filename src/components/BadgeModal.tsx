@@ -268,7 +268,7 @@ export default function BadgeModal({ onClose }: BadgeModalProps) {
 						<div className="relative mb-6 w-full max-w-[400px] mx-auto">
 							{/* Display the actual badge from the server */}
 							<div className="rounded-lg overflow-hidden shadow-lg">
-								{badgeUrl ? (
+								{!badgeUrl ? (
 									<LoaderCircle className="w-8 h-8 animate-spin " />
 								) : (
 									<img
