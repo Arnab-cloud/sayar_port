@@ -255,7 +255,8 @@ export default function AllProjects() {
 													<i className="ri-school-line text-xl text-white"></i>
 												</div>
 												<h3 className="text-lg font-bold text-gray-900 dark:text-white">
-													AIClassroom.in
+													AI Assisted Learning
+													Platform
 												</h3>
 											</div>
 											<p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
@@ -279,8 +280,8 @@ export default function AllProjects() {
 													</span>
 												))}
 											</div>
-											<a
-												href="https://aiclassroom.in/"
+											{/* <a
+												href="https://AI Assisted Learning Platform/"
 												target="_blank"
 												rel="noopener noreferrer"
 												className="mt-3 inline-flex items-center text-sm text-orange-600 hover:text-orange-700 dark:text-orange-400 font-medium"
@@ -288,7 +289,7 @@ export default function AllProjects() {
 												<i className="ri-global-line mr-1"></i>
 												<span>Visit Platform</span>
 												<i className="ri-external-link-line ml-1"></i>
-											</a>
+											</a> */}
 										</div>
 
 										{/* Project 2: abiv.in */}
